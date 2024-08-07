@@ -13,11 +13,15 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Title</title>
+    <style><%@include file="/WEB-INF/css/style.css"%></style>
 </head>
 <body>
     <h1>List song</h1>
+    <p>Music to enjoy</p>
 
-    <table class="table ">
+    <a href="/songs/create"> Create New Song</a>
+
+    <table class="table table-hover ">
         <tr>
             <th>#</th>
             <th>Name</th>
@@ -26,6 +30,7 @@
             <th>Artists</th>
             <th>ReleaseDate</th>
             <th>Status</th>
+            <th> Action </th>
         </tr>
         <c:forEach items="${songs}" var="song">
             <tr>
@@ -37,6 +42,10 @@
                 <td><c:out value="${song.artists_id}"/></td>
                 <td><c:out value="${song.releaseDate}"/></td>
                 <td><c:out value="${song.status_id}"/></td>
+                <td>
+                    <a class="btn btn-danger" href="/songs/delete?id=<c:out value="${song.songid}"/>">Delete</a>
+                    <a class="btn btn-primary">Update</a>
+                </td>
             </tr>
         </c:forEach>
     </table>

@@ -1,7 +1,10 @@
 package com.example.music.Services;
 
 import com.example.music.Models.SongModel;
+import com.example.music.entity.Artist;
+import com.example.music.entity.Category;
 import com.example.music.entity.Song;
+import com.example.music.entity.Status;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,15 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class SongService {
     private SongModel songModel;
+    private CategoryService categoryService;
+    private ArtistService artistService;
+    private StatusService statusService;
+
 
     public SongService() {
         this.songModel = new SongModel();
+        this.categoryService = new CategoryService();
+        this.artistService = new ArtistService();
+        this.statusService = new StatusService();
     }
 
     public List<Song> getAllSongs() throws SQLException {
@@ -44,10 +56,49 @@ public class SongService {
         return songs;
     }
 
+    // Chức năng
+    public void deleteSong(HttpServletRequest req, HttpServletResponse res) throws SQLException {
+        int Songid = Integer.parseInt(req.getParameter("id"));
+        this.songModel.destroySongs(Songid);
+
+    }
+
+    public void createSong(HttpServletRequest req, HttpServletResponse res) throws SQLException, ParseException {
+        int Songid = Integer.parseInt(req.getParameter("id"));
+        String SongName = req.getParameter("SongName");
+        int List_id = Integer.parseInt(req.getParameter("List_id"));
+        int Status_id = Integer.parseInt(req.getParameter("Status_id"));
+        int Category_id = Integer.parseInt(req.getParameter("Category_id"));
+        String date1 = req.getParameter("ReleaseDate");
+        Date ReleaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(date1);
+        int Artists_id = Integer.parseInt(req.getParameter("Artists_id"));
+
+        Song song = new Song(SongName, List_id, Status_id , Category_id, ReleaseDate, Artists_id);
+        this.songModel.storeSong(song);
+    }
+
+
+//Render Page
     public void renderListSong(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException {
         List<Song> songs =this.getAllSongs();
         req.setAttribute("songs", songs);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/songs/list.jsp");
         requestDispatcher.forward(req, res);
     }
+    public void renderPageCreate(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException {
+        List<Category> categories = this.categoryService.getAllcategories();
+        List<Artist> artists = this.artistService.getAllArtists();
+        List<Status>  statuses = this.statusService.getAllStatus();
+
+        req.setAttribute("categories", categories);
+        req.setAttribute("artists", artists);
+        req.setAttribute("statuses", statuses);
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/songs/create.jsp");
+        requestDispatcher.forward(req, res);
+
+
+    }
+
+
 }
