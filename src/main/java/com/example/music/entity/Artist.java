@@ -1,30 +1,43 @@
 package com.example.music.entity;
 
 public class Artist {
-    private static int Artistsid;
+    private int Artistsid;  // Removed static keyword
     private String Artistname;
     private int Artistimage;
     private String gender;
     private String description;
     private int Songid;
 
+    // Full constructor
+    public Artist( String Artistname, int Artistimage, String gender, String description, int Songid) {
 
-    public Artist(String Artistname, int Artistimage, String gender, String description, int Songid) {
+        this.Artistname = Artistname;
+        this.Artistimage = Artistimage;
+        this.gender = gender;
+        this.description = description;
+        this.Songid = Songid;
+    }
+    public Artist(int Artistsid , String Artistname, int Artistimage, String gender, String description, int Songid) {
         this.Artistsid = Artistsid;
         this.Artistname = Artistname;
         this.Artistimage = Artistimage;
         this.gender = gender;
         this.description = description;
         this.Songid = Songid;
-
     }
 
+    // Constructor for just artist name (and ID if needed)
+    public Artist(String artistname) {
+        this.Artistname = artistname;
+    }
+
+    // Getters and Setters
     public int getArtistsid() {
         return Artistsid;
     }
 
-    public static void setArtistsid(int artistsid) {
-        Artistsid = artistsid;
+    public void setArtistsid(int artistsid) {
+        this.Artistsid = artistsid;
     }
 
     public String getArtistname() {
@@ -32,7 +45,7 @@ public class Artist {
     }
 
     public void setArtistname(String artistname) {
-        Artistname = artistname;
+        this.Artistname = artistname;
     }
 
     public int getArtistimage() {
@@ -40,7 +53,7 @@ public class Artist {
     }
 
     public void setArtistimage(int artistimage) {
-        Artistimage = artistimage;
+        this.Artistimage = artistimage;
     }
 
     public String getGender() {
@@ -64,6 +77,8 @@ public class Artist {
     }
 
     public void setSongid(int songid) {
-        Songid = songid;
+        this.Songid = songid;
     }
+
+
 }

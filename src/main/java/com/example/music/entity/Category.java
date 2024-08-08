@@ -5,7 +5,11 @@ public class Category {
     private String categoryname;
 
 
-    public Category(String categoryname) {
+    public Category( String categoryname) {
+
+        this.categoryname = categoryname;
+    }
+    public Category(int categoryid  , String categoryname) {
         this.categoryid = categoryid;
         this.categoryname = categoryname;
     }

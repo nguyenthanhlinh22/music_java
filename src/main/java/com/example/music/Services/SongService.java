@@ -20,10 +20,10 @@ import java.util.Date;
 import java.util.List;
 
 public class SongService {
-    private SongModel songModel;
-    private CategoryService categoryService;
-    private ArtistService artistService;
-    private StatusService statusService;
+    private final SongModel songModel;
+    private final CategoryService categoryService;
+    private final ArtistService artistService;
+    private final StatusService statusService;
 
 
     public SongService() {
@@ -36,6 +36,7 @@ public class SongService {
     public List<Song> getAllSongs() throws SQLException {
         List<Song> songs = new ArrayList<>();
         ResultSet resultSet = this.songModel.getSongs();
+
         while (resultSet.next()) {
             int Songid = resultSet.getInt("Songid");
             String SongName = resultSet.getString("SongName");
@@ -44,17 +45,36 @@ public class SongService {
             int Category_id = resultSet.getInt("Category_id");
             Date ReleaseDate = resultSet.getDate("ReleaseDate");
             int Artists_id = resultSet.getInt("Artists_id");
+            String categoryname = resultSet.getString("categoryname");
+            String artistname = resultSet.getString("Artistsname");
+            String statusname = resultSet.getString("statusname");
 
+            // Create Song object
             Song song = new Song(SongName, List_id, status_id, Category_id, ReleaseDate, Artists_id);
             song.setSongid(Songid);
+
+            // Create and set Category object
+            Category category = new Category(categoryname);
+            category.setCategoryid(Category_id);
+            song.setCategory(category);
+
+            // Create and set Artist object
+            Artist artist = new Artist(artistname);
+            artist.setArtistsid(Artists_id);
+            song.setArtist(artist);
+
+            // Create and set Status object
+            Status status = new Status(statusname);
+            status.setStatusid(status_id);
+            song.setStatus(status);
+
+            // Add Song to list
             songs.add(song);
-            System.out.println(song.getSongName());
-
-
-
         }
+
         return songs;
     }
+
 
     // Chức năng
     public void deleteSong(HttpServletRequest req, HttpServletResponse res) throws SQLException {
@@ -73,22 +93,24 @@ public class SongService {
         Date ReleaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(date1);
         int Artists_id = Integer.parseInt(req.getParameter("Artists_id"));
 
-        Song song = new Song(SongName, List_id, Status_id , Category_id, ReleaseDate, Artists_id);
+        Song song = new Song(SongName, List_id, Status_id, Category_id, ReleaseDate, Artists_id);
+        song.setSongid(Songid);
         this.songModel.storeSong(song);
     }
 
 
-//Render Page
+    //Render Page
     public void renderListSong(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException {
-        List<Song> songs =this.getAllSongs();
+        List<Song> songs = this.getAllSongs();
         req.setAttribute("songs", songs);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/songs/list.jsp");
         requestDispatcher.forward(req, res);
     }
+
     public void renderPageCreate(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException {
         List<Category> categories = this.categoryService.getAllcategories();
         List<Artist> artists = this.artistService.getAllArtists();
-        List<Status>  statuses = this.statusService.getAllStatus();
+        List<Status> statuses = this.statusService.getAllStatus();
 
         req.setAttribute("categories", categories);
         req.setAttribute("artists", artists);

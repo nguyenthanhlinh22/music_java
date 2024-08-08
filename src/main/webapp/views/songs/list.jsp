@@ -38,10 +38,10 @@
                 <td></td>
                 <td><c:out value="${song.songName}"/></td>
                 <td><c:out value="${song.list_id}"/></td>
-                <td><c:out value="${song.category_id}"/></td>
-                <td><c:out value="${song.artists_id}"/></td>
+                <td><c:out value="${song.category.categoryname}"/></td>
+                <td><c:out value="${song.artist.artistname}"/></td>1
                 <td><c:out value="${song.releaseDate}"/></td>
-                <td><c:out value="${song.status_id}"/></td>
+                <td><c:out value="${song.status.statusname}"/></td>
                 <td>
                     <a class="btn btn-danger" href="/songs/delete?id=<c:out value="${song.songid}"/>">Delete</a>
                     <a class="btn btn-primary">Update</a>

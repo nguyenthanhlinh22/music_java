@@ -1,33 +1,27 @@
 package com.example.music.entity;
 
 public class Status {
-    private int Statusid;
-    private String StatusName;
+    private int statusid;
+    private String statusname;
 
-    public Status( int statusid,String statusName){
-
-       
-        this.Statusid = statusid;
-        StatusName = statusName;
-
+    public Status(String statusname) {
+        this.statusname = statusname;
     }
 
-    public Status(String statusName) {
-    }
-
-    public int getStatusid(int statusid) {
-        return Statusid;
+    public int getStatusid() {
+        return statusid;
     }
 
     public void setStatusid(int statusid) {
-        Statusid = statusid;
+        this.statusid = statusid;
     }
 
-    public String getStatusName() {
-        return StatusName;
+    public String getStatusname() {
+        return statusname;
     }
 
-    public void setStatusName(String statusName) {
-        StatusName = statusName;
+    public void setStatusname(String statusname) {
+        this.statusname = statusname;
     }
 }
+

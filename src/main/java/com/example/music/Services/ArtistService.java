@@ -28,7 +28,7 @@ public class ArtistService {
             int Songid = resultSet.getInt("Songid");
 
             Artist artist = new Artist( Artistsname, Artistsage, gender, description, Songid);
-            Artist.setArtistsid(Artistsid);
+            artist.setArtistsid(Artistsid);
             artists.add(artist);
         }
         return artists;

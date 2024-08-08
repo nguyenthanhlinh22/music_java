@@ -5,21 +5,21 @@ import java.util.Date;
 public class Song {
     private int Songid;
     private String SongName;
-    public int List_id;
+    private int List_id;
     private int status_id;
     private int Category_id;
-    private Date ReleaseDate;
     private int Artists_id;
+    private Date ReleaseDate;
+    private Status status;
+    private Artist artist;  // Added
+    private Category category;  // Added
 
-
-    public Song(String SongName, int List_id, int status_id, int Category_id, Date ReleaseDate, int Artists_id) {
+    public Song(String SongName, int List_id, int status_id, int Category_id, Date ReleaseDate, int artists_id) {
         this.SongName = SongName;
         this.List_id = List_id;
         this.status_id = status_id;
         this.Category_id = Category_id;
         this.ReleaseDate = ReleaseDate;
-        this.Artists_id = Artists_id;
-
     }
 
     public int getSongid() {
@@ -70,6 +70,30 @@ public class Song {
         ReleaseDate = releaseDate;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Artist getArtist() {  // Added
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {  // Added
+        this.artist = artist;
+    }
+
+    public Category getCategory() {  // Added
+        return category;
+    }
+
+    public void setCategory(Category category) {  // Added
+        this.category = category;
+    }
+
     public int getArtists_id() {
         return Artists_id;
     }
@@ -77,4 +101,5 @@ public class Song {
     public void setArtists_id(int artists_id) {
         Artists_id = artists_id;
     }
+
 }
