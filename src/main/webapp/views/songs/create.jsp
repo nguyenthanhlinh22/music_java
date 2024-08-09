@@ -32,7 +32,7 @@
         </c:forEach>
     </select><br>
     <label for="ReleaseDate">Release Date (dd/MM/yyyy):</label>
-    <input type="Date" id="ReleaseDate" name="ReleaseDate" placeholder="dd/MM/yyyy"><br>
+    <input type="text" id="ReleaseDate" name="ReleaseDate">
     <label for="Artists_id">Artist:</label>
     <select id="Artists_id" name="Artists_id">
         <c:forEach var="artist" items="${artists}">

@@ -58,6 +58,15 @@ public class SongController extends HelloServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "update":
+                try {
+                    this.songService.renderPageUpdate(request, response);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+
+
         }
 
 

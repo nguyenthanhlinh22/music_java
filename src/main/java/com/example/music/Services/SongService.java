@@ -43,7 +43,7 @@ public class SongService {
             int List_id = resultSet.getInt("List_id");
             int status_id = resultSet.getInt("Status_id");
             int Category_id = resultSet.getInt("Category_id");
-            Date ReleaseDate = resultSet.getDate("ReleaseDate");
+            String ReleaseDate = resultSet.getString("ReleaseDate");
             int Artists_id = resultSet.getInt("Artists_id");
             String categoryname = resultSet.getString("categoryname");
             String artistname = resultSet.getString("Artistsname");
@@ -75,7 +75,6 @@ public class SongService {
         return songs;
     }
 
-
     // Chức năng
     public void deleteSong(HttpServletRequest req, HttpServletResponse res) throws SQLException {
         int Songid = Integer.parseInt(req.getParameter("id"));
@@ -84,19 +83,65 @@ public class SongService {
     }
 
     public void createSong(HttpServletRequest req, HttpServletResponse res) throws SQLException, ParseException {
-        int Songid = Integer.parseInt(req.getParameter("id"));
-        String SongName = req.getParameter("SongName");
+        String songName = req.getParameter("SongName");
         int List_id = Integer.parseInt(req.getParameter("List_id"));
         int Status_id = Integer.parseInt(req.getParameter("Status_id"));
         int Category_id = Integer.parseInt(req.getParameter("Category_id"));
-        String date1 = req.getParameter("ReleaseDate");
-        Date ReleaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(date1);
+        String date = req.getParameter("ReleaseDate");
         int Artists_id = Integer.parseInt(req.getParameter("Artists_id"));
+        System.out.println("Received ReleaseDate: " + date);
+        System.out.println(Artists_id);
 
-        Song song = new Song(SongName, List_id, Status_id, Category_id, ReleaseDate, Artists_id);
-        song.setSongid(Songid);
+        Song song = new Song(songName, List_id, Status_id , Category_id, date, Artists_id);
         this.songModel.storeSong(song);
     }
+
+    public Song getSongById(HttpServletRequest req) throws SQLException {
+        int songid = Integer.parseInt(req.getParameter("id"));
+
+        ResultSet resultSet = this.songModel.getSongs();
+        Song song = null;
+        while (resultSet.next()) {
+            int Songid = resultSet.getInt("Songid");
+            String SongName = resultSet.getString("SongName");
+            int List_id = resultSet.getInt("List_id");
+            int status_id = resultSet.getInt("Status_id");
+            int Category_id = resultSet.getInt("Category_id");
+            String ReleaseDate = resultSet.getString("ReleaseDate");
+            int Artists_id = resultSet.getInt("Artists_id");
+            String categoryname = resultSet.getString("categoryname");
+            String artistname = resultSet.getString("Artistsname");
+            String statusname = resultSet.getString("statusname");
+
+            // Create Song object
+            song = new Song(SongName, List_id, status_id, Category_id, ReleaseDate, Artists_id);
+            song.setSongid(Songid);
+
+            // Create and set Category object
+            Category category = new Category(categoryname);
+            category.setCategoryid(Category_id);
+            song.setCategory(category);
+
+            // Create and set Artist object
+            Artist artist = new Artist(artistname);
+            artist.setArtistsid(Artists_id);
+            song.setArtist(artist);
+
+            // Create and set Status object
+            Status status = new Status(statusname);
+            status.setStatusid(status_id);
+            song.setStatus(status);
+
+        }
+
+        return song;
+
+
+
+    }
+
+
+
 
 
     //Render Page
@@ -122,5 +167,17 @@ public class SongService {
 
     }
 
+    public void renderPageUpdate(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException {
+        Song song = this.getSongById(req);
+        List<Category> categories = this.categoryService.getAllcategories();
+        List<Artist> artists = this.artistService.getAllArtists();
+        List<Status> statuses = this.statusService.getAllStatus();
+        req.setAttribute("song", song); // Set song attribute
+        req.setAttribute("categories", categories);
+        req.setAttribute("artists", artists);
+        req.setAttribute("statuses", statuses);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/songs/update.jsp");
+        requestDispatcher.forward(req, res);
+    }
 
 }

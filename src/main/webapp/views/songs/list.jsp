@@ -19,7 +19,7 @@
     <h1>List song</h1>
     <p>Music to enjoy</p>
 
-    <a href="/songs/create"> Create New Song</a>
+    <a class="btn btn-success m-2" href="/songs/create"> Create New Song</a>
 
     <table class="table table-hover ">
         <tr>
@@ -44,7 +44,7 @@
                 <td><c:out value="${song.status.statusname}"/></td>
                 <td>
                     <a class="btn btn-danger" href="/songs/delete?id=<c:out value="${song.songid}"/>">Delete</a>
-                    <a class="btn btn-primary">Update</a>
+                    <a class="btn btn-primary" href="/songs/update?id=<c:out value="${song.songid}"/>">Update</a>
                 </td>
             </tr>
         </c:forEach>

@@ -1,6 +1,5 @@
 package com.example.music.entity;
 
-import java.util.Date;
 
 public class Song {
     private int Songid;
@@ -9,18 +8,21 @@ public class Song {
     private int status_id;
     private int Category_id;
     private int Artists_id;
-    private Date ReleaseDate;
+    private String ReleaseDate;
     private Status status;
     private Artist artist;  // Added
     private Category category;  // Added
 
-    public Song(String SongName, int List_id, int status_id, int Category_id, Date ReleaseDate, int artists_id) {
+    public Song(String SongName, int List_id, int status_id, int Category_id, String ReleaseDate, int Artists_id) {
         this.SongName = SongName;
+        this.Artists_id = Artists_id;
         this.List_id = List_id;
         this.status_id = status_id;
         this.Category_id = Category_id;
         this.ReleaseDate = ReleaseDate;
     }
+
+
 
     public int getSongid() {
         return Songid;
@@ -62,11 +64,11 @@ public class Song {
         Category_id = category_id;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return ReleaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         ReleaseDate = releaseDate;
     }
 

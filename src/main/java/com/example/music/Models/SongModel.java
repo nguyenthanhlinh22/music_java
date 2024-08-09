@@ -17,7 +17,7 @@ public class SongModel {
     }
 
     public ResultSet getSongs() throws SQLException {
-        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid LIMIT 0, 1000;\n";
+        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid LIMIT 1000";
         PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
         return preparedStatement.executeQuery();
     }
@@ -36,9 +36,17 @@ public class SongModel {
         preparedStatement.setInt(2, song.getList_id());
         preparedStatement.setInt(3, song.getStatus_id());
         preparedStatement.setInt(4, song.getCategory_id());
-        preparedStatement.setString(5, String.valueOf(song.getReleaseDate()));
+        preparedStatement.setString(5, song.getReleaseDate());
         preparedStatement.setInt(6, song.getArtists_id());
         preparedStatement.execute();
+    }
+
+    public  ResultSet getSongById(int id) throws SQLException {
+        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid Where Song.Songid = ?";
+        PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        return preparedStatement.executeQuery();
+
     }
 
 
