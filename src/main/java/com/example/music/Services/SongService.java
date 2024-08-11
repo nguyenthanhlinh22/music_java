@@ -14,9 +14,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SongService {
@@ -97,12 +95,15 @@ public class SongService {
     }
 
     public Song getSongById(HttpServletRequest req) throws SQLException {
-        int songid = Integer.parseInt(req.getParameter("id"));
+        System.out.println(1);
+        int id = Integer.parseInt(req.getParameter("id"));
+        System.out.println(id);
 
-        ResultSet resultSet = this.songModel.getSongs();
+        ResultSet resultSet = this.songModel.getSongById(id);
         Song song = null;
         while (resultSet.next()) {
             int Songid = resultSet.getInt("Songid");
+
             String SongName = resultSet.getString("SongName");
             int List_id = resultSet.getInt("List_id");
             int status_id = resultSet.getInt("Status_id");
@@ -133,9 +134,71 @@ public class SongService {
             song.setStatus(status);
 
         }
-
         return song;
 
+
+
+    }
+
+    public void updateSongs(HttpServletRequest req, HttpServletResponse res) throws SQLException {
+        int Songid = Integer.parseInt(req.getParameter("Songid"));
+        String SongName = req.getParameter("SongName");
+        int List_id = Integer.parseInt(req.getParameter("List_id"));
+        int Status_id = Integer.parseInt(req.getParameter("Status_id"));
+        int Category_id = Integer.parseInt(req.getParameter("Category_id"));
+        String date = req.getParameter("ReleaseDate");
+        int Artists_id = Integer.parseInt(req.getParameter("Artists_id"));
+        String categoryname = req.getParameter("categoryname");
+        String artistname = req.getParameter("Artistsname");
+        String statusname = req.getParameter("statusname");
+
+        Song song = new Song(SongName, List_id, Status_id , Category_id, date, Artists_id);
+        song.setSongid(Songid);
+        this.songModel.updateSong(song);
+    }
+
+    public List<Song> searchSongs(HttpServletRequest req, HttpServletResponse res) throws SQLException {
+        String keyword = req.getParameter("keyword");
+        System.out.println(keyword);
+        ResultSet resultSet = this.songModel.searchSongs(keyword);
+        List<Song> songs = new ArrayList<>();
+        while (resultSet.next()) {
+            System.out.println(1);
+            int Songid = resultSet.getInt("Songid");
+            String SongName = resultSet.getString("SongName");
+            int List_id = resultSet.getInt("List_id");
+            int status_id = resultSet.getInt("Status_id");
+            int Category_id = resultSet.getInt("Category_id");
+            String ReleaseDate = resultSet.getString("ReleaseDate");
+            int Artists_id = resultSet.getInt("Artists_id");
+            String categoryname = resultSet.getString("categoryname");
+            String artistname = resultSet.getString("Artistsname");
+            String statusname = resultSet.getString("statusname");
+            System.out.println(SongName);
+
+            // Create Song object
+            Song song = new Song(SongName, List_id, status_id, Category_id, ReleaseDate, Artists_id);
+            song.setSongid(Songid);
+
+            // Create and set Category object
+            Category category = new Category(categoryname);
+            category.setCategoryid(Category_id);
+            song.setCategory(category);
+
+            // Create and set Artist object
+            Artist artist = new Artist(artistname);
+            artist.setArtistsid(Artists_id);
+            song.setArtist(artist);
+
+            // Create and set Status object
+            Status status = new Status(statusname);
+            status.setStatusid(status_id);
+            song.setStatus(status);
+
+            songs.add(song);
+        }
+
+        return songs;
 
 
     }
@@ -179,5 +242,13 @@ public class SongService {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/songs/update.jsp");
         requestDispatcher.forward(req, res);
     }
+
+    public void renderSeachSong(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException {
+        List<Song> songs = this.searchSongs(req, res);
+        req.setAttribute("songs", songs);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/songs/list.jsp");
+        requestDispatcher.forward(req, res);
+    }
+
 
 }

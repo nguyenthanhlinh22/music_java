@@ -20,6 +20,10 @@
     <p>Music to enjoy</p>
 
     <a class="btn btn-success m-2" href="/songs/create"> Create New Song</a>
+    <form action="/songs/search" method="get">
+        <input class="input-key" type="text" name="keyword">
+        <input class="btn btn-primary" type="submit" name="Search">
+    </form>
 
     <table class="table table-hover ">
         <tr>
@@ -32,10 +36,11 @@
             <th>Status</th>
             <th> Action </th>
         </tr>
+        <c:set var="index" value="1"/>
         <c:forEach items="${songs}" var="song">
             <tr>
 
-                <td></td>
+                <td><c:out value="${index}"/> </td>
                 <td><c:out value="${song.songName}"/></td>
                 <td><c:out value="${song.list_id}"/></td>
                 <td><c:out value="${song.category.categoryname}"/></td>
@@ -47,6 +52,7 @@
                     <a class="btn btn-primary" href="/songs/update?id=<c:out value="${song.songid}"/>">Update</a>
                 </td>
             </tr>
+            <c:set var="index" value="${index+1}"/>
         </c:forEach>
     </table>
 

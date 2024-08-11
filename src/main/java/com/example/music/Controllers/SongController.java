@@ -58,9 +58,16 @@ public class SongController extends HelloServlet {
                     throw new RuntimeException(e);
                 }
                 break;
-            case "update":
+            case "/update":
                 try {
                     this.songService.renderPageUpdate(request, response);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case "/search" :
+                try {
+                    this.songService.renderSeachSong(request, response);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -90,6 +97,15 @@ public class SongController extends HelloServlet {
                 } catch (SQLException | ParseException e) {
                     throw new RuntimeException(e);
                 }
+                break;
+            case "/update":
+                try {
+                    this.songService.updateSongs(req, resp);
+                    resp.sendRedirect("/songs");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
         }
 
 

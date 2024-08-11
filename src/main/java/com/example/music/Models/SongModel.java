@@ -1,7 +1,6 @@
 package com.example.music.Models;
 
 import com.example.music.DataBases.DataBaseConnect;
-import com.example.music.Services.SongService;
 import com.example.music.entity.Song;
 
 import java.sql.Connection;
@@ -48,6 +47,28 @@ public class SongModel {
         return preparedStatement.executeQuery();
 
     }
+
+    public void updateSong(Song song) throws SQLException {
+        String sql  = "UPDATE songs SET SongName=?, List_id=?, status_id=?, Category_id=?, Artists_id=?, ReleaseDate=? WHERE Songid=?";
+        PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+        preparedStatement.setString(1, song.getSongName());
+        preparedStatement.setInt(2, song.getList_id());
+        preparedStatement.setInt(3, song.getStatus_id());
+        preparedStatement.setInt(4, song.getCategory_id());
+        preparedStatement.setInt(5, song.getArtists_id());
+        preparedStatement.setString(6, song.getReleaseDate());
+        preparedStatement.setInt(7, song.getSongid());
+        preparedStatement.execute();
+
+    }
+
+    public ResultSet searchSongs(String SongName) throws SQLException {
+        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid WHERE SongName LIKE ?";
+        PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+        preparedStatement.setString(1, "%" + SongName + "%");
+        return preparedStatement.executeQuery();
+    }
+
 
 
 

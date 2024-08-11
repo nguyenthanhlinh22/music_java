@@ -19,4 +19,7 @@ public class ArtistModel {
         PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
         return preparedStatement.executeQuery();
     }
+
+
+
 }

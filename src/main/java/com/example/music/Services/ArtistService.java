@@ -3,6 +3,11 @@ package com.example.music.Services;
 import com.example.music.Models.ArtistModel;
 import com.example.music.entity.Artist;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,4 +38,13 @@ public class ArtistService {
         }
         return artists;
     }
+
+
+    public void renderListArtists(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        List<Artist> artists = getAllArtists();
+        request.setAttribute("artists", artists);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/artists/list.jsp");
+        requestDispatcher.forward(request,response);
+
+        }
 }

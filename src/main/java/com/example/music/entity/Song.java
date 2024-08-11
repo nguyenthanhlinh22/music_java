@@ -13,6 +13,8 @@ public class Song {
     private Artist artist;  // Added
     private Category category;  // Added
 
+
+
     public Song(String SongName, int List_id, int status_id, int Category_id, String ReleaseDate, int Artists_id) {
         this.SongName = SongName;
         this.Artists_id = Artists_id;
