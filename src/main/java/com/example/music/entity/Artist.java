@@ -6,24 +6,22 @@ public class Artist {
     private int Artistimage;
     private String gender;
     private String description;
-    private int Songid;
 
     // Full constructor
-    public Artist( String Artistname, int Artistimage, String gender, String description, int Songid) {
+    public Artist( String Artistname, int Artistimage, String gender, String description) {
 
         this.Artistname = Artistname;
         this.Artistimage = Artistimage;
         this.gender = gender;
         this.description = description;
-        this.Songid = Songid;
+
     }
-    public Artist(int Artistsid , String Artistname, int Artistimage, String gender, String description, int Songid) {
+    public Artist(int Artistsid , String Artistname, int Artistimage, String gender, String description ) {
         this.Artistsid = Artistsid;
         this.Artistname = Artistname;
         this.Artistimage = Artistimage;
         this.gender = gender;
         this.description = description;
-        this.Songid = Songid;
     }
 
     // Constructor for just artist name (and ID if needed)
@@ -72,13 +70,6 @@ public class Artist {
         this.description = description;
     }
 
-    public int getSongid() {
-        return Songid;
-    }
-
-    public void setSongid(int songid) {
-        this.Songid = songid;
-    }
 
 
 }

@@ -30,13 +30,19 @@ public class ArtistService {
             int Artistsage = resultSet.getInt("Artistsage");
             String gender = resultSet.getString("Gender");
             String description = resultSet.getString("Description");
-            int Songid = resultSet.getInt("Songid");
 
-            Artist artist = new Artist( Artistsname, Artistsage, gender, description, Songid);
+
+            Artist artist = new Artist( Artistsname, Artistsage, gender, description);
             artist.setArtistsid(Artistsid);
             artists.add(artist);
         }
         return artists;
+    }
+
+    public void deleteArtists(HttpServletRequest request, HttpServletResponse res) throws SQLException {
+        int Artistsid = Integer.parseInt(request.getParameter("id"));
+        System.out.println(Artistsid);
+        this.artistModel.destroyArtist(Artistsid);
     }
 
 

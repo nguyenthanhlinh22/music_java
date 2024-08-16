@@ -20,6 +20,13 @@ public class ArtistModel {
         return preparedStatement.executeQuery();
     }
 
+    public void destroyArtist(int Artistsid) throws SQLException {
+        String sql = "delete from artists where Artistsid = ?";
+        PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+        preparedStatement.setInt(1, Artistsid);
+        preparedStatement.execute();
+    }
+
 
 
 }

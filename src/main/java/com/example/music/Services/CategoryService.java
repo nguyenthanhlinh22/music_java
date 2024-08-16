@@ -23,7 +23,6 @@ public class CategoryService {
         while (resultSet.next()) {
             int categoryid = resultSet.getInt("categoryid");
             String categoryname = resultSet.getString("categoryname");
-
             Category category = new Category(categoryname);
             category.setCategoryid(categoryid);
             categories.add(category);

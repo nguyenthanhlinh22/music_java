@@ -16,9 +16,19 @@ public class SongModel {
     }
 
     public ResultSet getSongs() throws SQLException {
-        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid LIMIT 1000";
+        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid";
         PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
         return preparedStatement.executeQuery();
+    }
+
+
+    public  ResultSet getSongByOffset(int offset, int limit) throws SQLException {
+        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid LIMIT ? OFFSET ?";
+        PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+        preparedStatement.setInt(1, offset);
+        preparedStatement.setInt(2, limit);
+        return preparedStatement.executeQuery();
+
     }
     public void destroySongs(int songid) throws SQLException {
         String sql = "delete from songs where songid = ?";
@@ -41,7 +51,7 @@ public class SongModel {
     }
 
     public  ResultSet getSongById(int id) throws SQLException {
-        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid Where Song.Songid = ?";
+        String sql = "SELECT s.*, st.Statusname, c.categoryname, a.Artistsname FROM songs s JOIN categories c ON s.Category_id = c.categoryid JOIN status st ON s.status_id = st.Statusid JOIN artists a ON s.Artists_id = a.Artistsid Where s.Songid = ?";
         PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
         preparedStatement.setInt(1, id);
         return preparedStatement.executeQuery();

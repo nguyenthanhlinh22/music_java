@@ -29,17 +29,18 @@ public class ArtistController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getPathInfo();
-        if(url == null || url.equals("/")){
+        if(url == null || url.equals("/artist")){
             try {
-                this.songService.renderListSong(req, resp);
+                this.artistService.renderListArtists(req, resp);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
 
             switch (url){
-                case "/artist":
+                case "/delete":
                     try {
-                        this.artistService.renderListArtists(req, resp);
+                        this.artistService.deleteArtists(req, resp);
+                        resp.sendRedirect("/artist");
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
